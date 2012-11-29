@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">CodeBrowser</string>
+    
+<string name="text_selectfile">Chose your code</string>
+
+</resources>
