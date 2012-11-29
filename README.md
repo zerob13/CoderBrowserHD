@@ -1,4 +1,3 @@
-lear & powerful Code Reader
 Just a Clear & powerful Code Reader
 This Android app supports all C-like, Bash-like, and XML-like languages highlighting.You can use it to read code on your Android .It’s a free app. If you have some questions about this,please contact me:zerob13@gmail.com.
 SUPPORTED LANGUAGE :
