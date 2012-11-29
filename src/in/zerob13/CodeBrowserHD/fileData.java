@@ -44,17 +44,14 @@ class ExpBaseAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mItems.size();
 	}
 
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
 	public int getItemType(int arg0) {
-		// TODO Auto-generated method stub
 		return getItem(arg0).type;
 	}
 
@@ -63,8 +60,6 @@ class ExpBaseAdapter extends BaseAdapter {
 	}
 
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
-		// TODO Auto-generated method stub
-		// LinearLayout layout=null ;
 		if(getItem(arg0).name.equals("....")&&getItem(arg0).type == -1){			
 			return aLayout;
 		}
@@ -78,14 +73,6 @@ class ExpBaseAdapter extends BaseAdapter {
 			fm_text_01.setTextColor(Color.BLUE);
 		}
 		fm_text_01.setText(getItem(arg0).name + "\n");
-
-		// Log.v("vodone",""+arg0+" name="+getItem(arg0).name);
-
-		/*
-		 * if (getItem(arg0).equals(".")){
-		 * 
-		 * }
-		 */
 
 		return arg1;
 	}
