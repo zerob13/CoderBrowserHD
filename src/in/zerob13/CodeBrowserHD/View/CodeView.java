@@ -11,19 +11,19 @@
  * ------------------------------------------------------------------ 
  * Nov 17, 2012    zerob13      1.0         1.0 Version 
  */
-package in.zerob13.CodeBrowserHD;
+package in.zerob13.CodeBrowserHD.View;
 
-import android.R.integer;
+import in.zerob13.CodeBrowserHD.GlobalConfig;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 public class CodeView extends ViewGroup {
 
-	private WebView browser;
+	private ZeroWebView browser;
 	private LinearLayout aLine;
 
 	/**
@@ -49,7 +49,8 @@ public class CodeView extends ViewGroup {
 	public CodeView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		aLine = new LinearLayout(context);
-		browser = new WebView(context);
+		aLine.setBackgroundColor(Color.RED);
+		browser = new ZeroWebView(context);
 		browser.getSettings().setBuiltInZoomControls(true);
 		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 		browser.setHorizontalScrollBarEnabled(true);
@@ -58,7 +59,6 @@ public class CodeView extends ViewGroup {
 		browser.resumeTimers();
 		this.addView(browser);
 		this.addView(aLine);
-		requestLayout();
 
 	}
 
@@ -77,21 +77,20 @@ public class CodeView extends ViewGroup {
 	 */
 	@Override
 	protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
-		DisplayMetrics dm = new DisplayMetrics();
-		int width = dm.widthPixels;
-		int height = dm.heightPixels;
-		int des = dm.densityDpi;
-		browser.layout(0, 0, width, height - 40 * des);
-		aLine.layout(0, height - 40 * des, width, height);
+		int width = GlobalConfig.my_width;
+		int height = GlobalConfig.my_height;
+		double des = GlobalConfig.my_des;
+		browser.measure(GlobalConfig.my_width, GlobalConfig.my_height - (int) (50 * GlobalConfig.my_des));
+//		
+		browser.layout(0, 0, browser.getMeasuredWidth(),browser.getMeasuredHeight());
+		aLine.layout(0, height-(int) (50 * des), width, height);
 
 	}
-
+	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-		setMeasuredDimension(widthSize, heightSize);
-
+		// TODO Auto-generated method stub
+		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height);
 	}
 
 }

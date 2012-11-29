@@ -32,7 +32,7 @@ class ExpBaseAdapter extends BaseAdapter {
 		mContext = context;
 		te = new AdView((Activity)mContext);
 		aLayout = new LinearLayout(mContext);
-		aLayout.addView(te,new LayoutParams(FileChoser.my_width, (int)(80*FileChoser.my_des)));
+		aLayout.addView(te,new LayoutParams(GlobalConfig.my_width, (int)(80*GlobalConfig.my_des)));
 	}
 
 	public void addItem(fileData it) {

@@ -1,5 +1,6 @@
 package in.zerob13.CodeBrowserHD;
 
+import in.zerob13.CodeBrowserHD.View.CodeView;
 import info.monitorenter.cpdetector.io.ASCIIDetector;
 import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
 import info.monitorenter.cpdetector.io.JChardetFacade;
@@ -83,10 +84,10 @@ public class CodeBrowser extends Activity {
 		transMap.put('<', "&lt;");
 		transMap.put('&', "&amp;");
 		transMap.put('>', "&gt;");
-		setContentView(R.layout.main);
+//		setContentView(R.layout.main);
 		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
-//		browser = rootView.getWebview();
-		browser = (WebView)findViewById(R.id.widget31);
+		browser = rootView.getWebview();
+//		browser = (WebView)findViewById(R.id.widget31);
 		
 		
 //		aLayout.setOrientation(LinearLayout.VERTICAL);
@@ -94,13 +95,14 @@ public class CodeBrowser extends Activity {
 //		aLayout.addView(new AdView(this),
 //				new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 //		setContentView(rootView);
-		browser.getSettings().setBuiltInZoomControls(true);
-		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-		browser.setHorizontalScrollBarEnabled(true);
-		browser.setHorizontalScrollbarOverlay(true);
-		browser.setVerticalScrollBarEnabled(true);
-		browser.resumeTimers();
-
+//		browser.getSettings().setBuiltInZoomControls(true);
+//		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+//		browser.setHorizontalScrollBarEnabled(true);
+//		browser.setHorizontalScrollbarOverlay(true);
+//		browser.setVerticalScrollBarEnabled(true);
+//		browser.resumeTimers();
+		rootView.getALine().addView(new AdView(this));
+		setContentView(rootView);
 		Bundle bundle = this.getIntent().getExtras();
 		mPath = bundle.getString("filename");
 		File tFile = new File(mPath);

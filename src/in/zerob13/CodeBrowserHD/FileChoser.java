@@ -20,9 +20,6 @@ public class FileChoser extends Activity {
 	ExpBaseAdapter ap;
 	ListView lv2;
 	Context me;
-	public static int my_width;
-	public static int my_height;
-	public static double my_des;
 
 	//	String fileEndings[] = { "cpp", "cc", "h", "hpp", "cxx", "hxx", "c", "c++",
 	//			"cs", "c#", "c-sharp", "csharp", "css", "jav", "java", "php",
@@ -43,9 +40,9 @@ public class FileChoser extends Activity {
 		lv2.setCacheColorHint(0x00000000);
 		DisplayMetrics dm = new DisplayMetrics();
 		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		my_width = dm.widthPixels;
-		my_height = dm.heightPixels;
-		my_des = dm.density;
+		GlobalConfig.my_width = dm.widthPixels;
+		GlobalConfig.my_height = dm.heightPixels;
+		GlobalConfig.my_des = dm.density;
 		ap = new ExpBaseAdapter(this);
 		lv2.setAdapter(ap);
 		AdManager.init(getApplicationContext(),"9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
