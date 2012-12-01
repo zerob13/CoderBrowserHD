@@ -55,6 +55,7 @@ public class CodeBrowser extends Activity {
 	private boolean mIssort = false;
 	private String codeType;
 	private String codeBody;
+	private boolean isDayTheme = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -131,7 +132,7 @@ public class CodeBrowser extends Activity {
 			Log.v("encode", enCode);
 			Log.v("codeType", codeType);
 		}
-		loadCode();
+		loadCode(false);
 
 	}
 
@@ -148,7 +149,7 @@ public class CodeBrowser extends Activity {
 		}
 		if (DEBUG)
 			Log.v("onnew Intent ", enCode);
-		loadCode();
+		loadCode(false);
 	}
 
 	@Override
@@ -163,7 +164,7 @@ public class CodeBrowser extends Activity {
 			Log.d("onDestroy", "destory");
 	}
 
-	private void loadCode() {
+	private void loadCode(boolean noReset) {
 		if (GlobalConfig.codeTemp == null) {
 			InputStream inptemp = this.getResources().openRawResource(R.raw.htmltemp);
 			Scanner aScanner = new Scanner(inptemp);
@@ -175,25 +176,31 @@ public class CodeBrowser extends Activity {
 			GlobalConfig.codeTemp = tempBuffer.toString();
 		}
 		// 构建一个带缓冲的字符型输入流
-		String line = null;
-		StringBuffer aBuffer = new StringBuffer();
-		Scanner aScanner;
-		try {
-			aScanner = new Scanner(new File(mPath));
-			while (aScanner.hasNextLine()) {
-				line = aScanner.nextLine();
-				char chars[] = line.toCharArray();
-				for (char c : chars) {
-					aBuffer.append(((transMap.get(c) == null) ? c : transMap.get(c)));
+		if (!noReset) {
+			String line = null;
+			StringBuffer aBuffer = new StringBuffer();
+			Scanner aScanner;
+			try {
+				aScanner = new Scanner(new File(mPath));
+				while (aScanner.hasNextLine()) {
+					line = aScanner.nextLine();
+					char chars[] = line.toCharArray();
+					for (char c : chars) {
+						aBuffer.append(((transMap.get(c) == null) ? c : transMap.get(c)));
+					}
+					aBuffer.append("\n");
 				}
-				aBuffer.append("\n");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			codeBody = aBuffer.toString();
 		}
-		codeBody = aBuffer.toString();
-		html = String.format(GlobalConfig.codeTemp, enCode, codeType, codeBody);
+		if (isDayTheme) {
+			html = String.format(GlobalConfig.codeTemp, enCode, "prettify-day.css", codeType, codeBody);
+		} else {
+			html = String.format(GlobalConfig.codeTemp, enCode, "prettify.css", codeType, codeBody);
+		}
 		browser.clearView();
 		browser.stopLoading();
 		browser.getSettings().setSupportZoom(true);
@@ -247,9 +254,13 @@ public class CodeBrowser extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu filechose = menu.addSubMenu(Menu.NONE, -1, 0, "File Encoding");
+		SubMenu filechose = menu.addSubMenu(1, -1, 0, R.string.encode_select);
+
+		SubMenu ThemeChose = menu.addSubMenu(2, -2, 1, R.string.theme_select);
+		ThemeChose.add(2, 0, 0, R.string.theme_day);
+		ThemeChose.add(2, 1, 0, R.string.theme_night);
 		for (int i = 0; i < encodeType.length; i++) {
-			filechose.add(Menu.NONE, i, 0, encodeType[i]);
+			filechose.add(1, i, 0, encodeType[i]);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -258,9 +269,21 @@ public class CodeBrowser extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (DEBUG)
 			Log.v("encode", String.valueOf((item.getItemId())));
-		if (item.getItemId() != -1) {
-			enCode = encodeType[item.getItemId()];
-			loadCode();
+		if (item.getGroupId() == 1) {
+			if (item.getItemId() != -1) {
+				enCode = encodeType[item.getItemId()];
+				loadCode(true);
+			}
+		} else if (item.getGroupId() == 2) {
+
+			if (item.getItemId() == 0) {
+				isDayTheme = true;
+				loadCode(true);
+			} else if (item.getItemId() == 1) {
+				isDayTheme = false;
+				loadCode(true);
+			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

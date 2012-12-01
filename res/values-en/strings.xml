@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <string name="app_name">CodeBrowser</string>
+    <string name="text_selectfile">Choose Your Source File:</string>
+    <string name="encode_select">File Encoding</string>
+    <string name="theme_select">Change Theme</string>
+    <string name="theme_day">DayLight</string>
+    <string name="theme_night">Night</string>
+</resources>

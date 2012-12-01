@@ -1,5 +1,5 @@
 <head><META http-equiv="Content-Type" content="text/html; charset=%s"><title>CoderBrowser by zerob13(www.zerob13.in)</title>
-<link href="prettify.css" rel="stylesheet" type="text/css" />
+<link href="%s" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="prettify.js"></script>
 </head>
 <body onload="prettyPrint()">
