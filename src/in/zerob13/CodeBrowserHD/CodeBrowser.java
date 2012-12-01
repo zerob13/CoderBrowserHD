@@ -13,10 +13,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.youmi.android.AdManager;
 import net.youmi.android.AdView;
 import android.app.Activity;
 import android.content.Context;
@@ -31,8 +31,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 public class CodeBrowser extends Activity {
 	private boolean DEBUG = true;
@@ -54,14 +52,15 @@ public class CodeBrowser extends Activity {
 	String[] phpAliases = { "php", "php4" };
 	String[] pythonAliases = { "py", "python" };
 	String[] bashAliases = { "sh", "ksh", "csh", "shell", "rc", "init" };
-	String[] sqlAliases = { "4gl", "proc", "sql" };
-	String[] vbAliases = { "bas", "frm", "cls", "vbs", "ctl", "vb", "vb.net" };
 	String[] xmlAliases = { "asp", "jsp", "aspx", "htt", "htx", "phtml", "wml", "rss", "xhtml", "shtml",
 			"dhtml", "dtd", "html", "htm", "xhtml", "xml", "xsd", "xsl", "xslt", "config" };
 	String[] jsAliases = { "js", "jscript", "javascript" };
 
 	String html = null;
 	CodeView rootView;
+	private boolean mIssort = false;
+	private String codeType;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,16 +71,17 @@ public class CodeBrowser extends Activity {
 		GlobalConfig.my_width = dm.widthPixels;
 		GlobalConfig.my_height = dm.heightPixels;
 		GlobalConfig.my_des = dm.density;
-		//		Arrays.sort(cppAliases);
-		//		Arrays.sort(csharpAliases);
-		//		Arrays.sort(javaAliases);
-		//		Arrays.sort(phpAliases);
-		//		Arrays.sort(pythonAliases);
-		//		Arrays.sort(bashAliases);
-		//		Arrays.sort(sqlAliases);
-		//		Arrays.sort(vbAliases);
-		//		Arrays.sort(xmlAliases);
-		//		Arrays.sort(jsAliases);
+		if (!mIssort) {
+			Arrays.sort(cppAliases);
+			Arrays.sort(csharpAliases);
+			Arrays.sort(javaAliases);
+			Arrays.sort(phpAliases);
+			Arrays.sort(pythonAliases);
+			Arrays.sort(bashAliases);
+			Arrays.sort(xmlAliases);
+			Arrays.sort(jsAliases);
+			mIssort = true;
+		}
 		rootView = new CodeView(this);
 		rootView.requestLayout();
 		transMap.put(' ', "&nbsp;");
@@ -90,19 +90,49 @@ public class CodeBrowser extends Activity {
 		transMap.put('>', "&gt;");
 		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
 		browser = rootView.getWebview();
-
 		rootView.getALine().addView(new AdView(this));
 		setContentView(rootView);
 		Bundle bundle = this.getIntent().getExtras();
 		mPath = bundle.getString("filename");
 		File tFile = new File(mPath);
+		codeType = "";
+		String[] tnameString = tFile.getName().split("\\.");
+		if (tnameString.length > 1) {
+			String endString = tnameString[tnameString.length - 1].toLowerCase();
+			if (Arrays.binarySearch(cppAliases, endString) >= 0) {
+				codeType = " lang-cpp";
+			}
+			if (Arrays.binarySearch(csharpAliases, endString) >= 0) {
+				codeType = " lang-cs";
+			}
+			if (Arrays.binarySearch(javaAliases, endString) >= 0) {
+				codeType = " lang-java";
+			}
+			if (Arrays.binarySearch(phpAliases, endString) >= 0) {
+				codeType = " lang-php";
+			}
+			if (Arrays.binarySearch(pythonAliases, endString) >= 0) {
+				codeType = " lang-python";
+			}
+			if (Arrays.binarySearch(bashAliases, endString) >= 0) {
+				codeType = " lang-bsh";
+			}
+			if (Arrays.binarySearch(xmlAliases, endString) >= 0) {
+				codeType = " lang-xml";
+			}
+			if (Arrays.binarySearch(jsAliases, endString) >= 0) {
+				codeType = " lang-js";
+			}
+		}
 		if (tFile.length() < 1024 * 32 * 8) {
 			enCode = getEncode(mPath);
 		} else {
 			enCode = "UTF-8";
 		}
-		if (DEBUG)
+		if (DEBUG) {
 			Log.v("encode", enCode);
+			Log.v("codeType", codeType);
+		}
 		loadCode();
 		flag = 0;
 
@@ -169,7 +199,10 @@ public class CodeBrowser extends Activity {
 
 			aBuffer.append("</head>" + "\n<body onload=\"prettyPrint()\">");
 			aBuffer.append("\n");
-			aBuffer.append("<pre class=\"prettyprint\">");
+			aBuffer.append("<pre class=\"prettyprint" + codeType + "\">");
+			if (DEBUG) {
+				Log.d("pre", "<pre class=\"prettyprint" + codeType + "\">");
+			}
 			aBuffer.append("\n");
 			line = br.readLine();
 			while (line != null) {
@@ -210,7 +243,7 @@ public class CodeBrowser extends Activity {
 		GlobalConfig.my_des = dm.density;
 		rootView.requestLayout();
 		super.onConfigurationChanged(newConfig);
-//		setContentView(rootView);
+		//		setContentView(rootView);
 	}
 
 	public void onClick(View v) {
@@ -255,13 +288,11 @@ public class CodeBrowser extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		if (DEBUG)
 			Log.v("encode", String.valueOf((item.getItemId())));
 		if (item.getItemId() != -1) {
 			enCode = encodeType[item.getItemId()];
 			loadCode();
-			//			browser.reload();
 		}
 		return super.onOptionsItemSelected(item);
 	}
