@@ -46,11 +46,9 @@ public class FileChoser extends Activity {
 		ap = new ExpBaseAdapter(this);
 		lv2.setAdapter(ap);
 		AdManager.init(getApplicationContext(),"9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
-		//		initFiles();
 		ListView.OnItemClickListener lv2click = new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView parent, View view, int position, long id) {
-				// TODO Auto-generated method stub
 
 				int fid = ap.getItemType((int) id);
 				String mPath = "";
@@ -74,7 +72,6 @@ public class FileChoser extends Activity {
 					Intent mIntent = new Intent();
 					mIntent.setClass(FileChoser.this, CodeBrowser.class);
 					mIntent.putExtras(bundle);
-					// setResult(RESULT_OK, mIntent);
 
 					startActivity(mIntent);
 				}

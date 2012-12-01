@@ -26,7 +26,6 @@ class ExpBaseAdapter extends BaseAdapter {
 	private Vector<fileData> mItems = new Vector<fileData>();
 	private AdView te ;
 	private LinearLayout aLayout;
-	// private LinearLayout layout,layout_more;
 
 	public ExpBaseAdapter(Context context) {
 		mContext = context;

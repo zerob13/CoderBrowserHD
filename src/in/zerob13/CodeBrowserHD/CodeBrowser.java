@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,8 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 public class CodeBrowser extends Activity {
-	/** Called when the activity is first created. */
-	// WebView browser;
 	private boolean DEBUG = true;
 	private WebView browser;
 	private int flag;
@@ -68,6 +67,11 @@ public class CodeBrowser extends Activity {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		DisplayMetrics dm = new DisplayMetrics();
+		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		GlobalConfig.my_width = dm.widthPixels;
+		GlobalConfig.my_height = dm.heightPixels;
+		GlobalConfig.my_des = dm.density;
 		//		Arrays.sort(cppAliases);
 		//		Arrays.sort(csharpAliases);
 		//		Arrays.sort(javaAliases);
@@ -84,23 +88,9 @@ public class CodeBrowser extends Activity {
 		transMap.put('<', "&lt;");
 		transMap.put('&', "&amp;");
 		transMap.put('>', "&gt;");
-//		setContentView(R.layout.main);
 		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
 		browser = rootView.getWebview();
-//		browser = (WebView)findViewById(R.id.widget31);
-		
-		
-//		aLayout.setOrientation(LinearLayout.VERTICAL);
-//		LinearLayout aLayout = rootView.getALine();
-//		aLayout.addView(new AdView(this),
-//				new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//		setContentView(rootView);
-//		browser.getSettings().setBuiltInZoomControls(true);
-//		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-//		browser.setHorizontalScrollBarEnabled(true);
-//		browser.setHorizontalScrollbarOverlay(true);
-//		browser.setVerticalScrollBarEnabled(true);
-//		browser.resumeTimers();
+
 		rootView.getALine().addView(new AdView(this));
 		setContentView(rootView);
 		Bundle bundle = this.getIntent().getExtras();
@@ -140,7 +130,7 @@ public class CodeBrowser extends Activity {
 			browser.pauseTimers();
 			browser.stopLoading();
 			browser.clearView();
-//			browser.destroy();
+			browser.destroy();
 		}
 		super.onDestroy();
 		if (DEBUG)
@@ -149,8 +139,6 @@ public class CodeBrowser extends Activity {
 
 	private void loadCode() {
 		StringBuffer temp2 = new StringBuffer();
-		//		browser.clearCache(true);
-		//		browser.clearView();
 		for (int i = mPath.length() - 1; i >= 0; i--) {
 			if (mPath.charAt(i) != '.') {
 
@@ -215,21 +203,14 @@ public class CodeBrowser extends Activity {
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		try {
-			//			super.onConfigurationChanged(newConfig);
-			if (flag == 1) {
-				setTitle("CodeBrowser By zerob13(www.zerob13.in)");
-				setContentView(R.layout.main);
-				browser = (WebView) findViewById(R.id.widget31);
-				browser.getSettings().setBuiltInZoomControls(true);
-				browser.getSettings().setJavaScriptEnabled(true);
-				browser.getSettings().setUseWideViewPort(true);
-				browser.getSettings().setAllowFileAccess(true);
-				browser.loadDataWithBaseURL("file:///android_asset/", html, "text/html", enCode, null);
-
-			}
-		} catch (Exception ex) {
-		}
+		DisplayMetrics dm = new DisplayMetrics();
+		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		GlobalConfig.my_width = dm.widthPixels;
+		GlobalConfig.my_height = dm.heightPixels;
+		GlobalConfig.my_des = dm.density;
+		rootView.requestLayout();
+		super.onConfigurationChanged(newConfig);
+//		setContentView(rootView);
 	}
 
 	public void onClick(View v) {

@@ -81,7 +81,6 @@ public class CodeView extends ViewGroup {
 		int height = GlobalConfig.my_height;
 		double des = GlobalConfig.my_des;
 		browser.measure(GlobalConfig.my_width, GlobalConfig.my_height - (int) (50 * GlobalConfig.my_des));
-//		
 		browser.layout(0, 0, browser.getMeasuredWidth(),browser.getMeasuredHeight());
 		aLine.layout(0, height-(int) (50 * des), width, height);
 
@@ -89,7 +88,6 @@ public class CodeView extends ViewGroup {
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
 		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height);
 	}
 
