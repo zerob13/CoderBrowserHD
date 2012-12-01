@@ -1,6 +1,5 @@
 package in.zerob13.CodeBrowserHD;
 
-import in.zerob13.CodeBrowserHD.View.CodeView;
 import info.monitorenter.cpdetector.io.ASCIIDetector;
 import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
 import info.monitorenter.cpdetector.io.JChardetFacade;
@@ -17,7 +16,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.youmi.android.AdView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +33,6 @@ import android.webkit.WebView;
 public class CodeBrowser extends Activity {
 	private boolean DEBUG = true;
 	private WebView browser;
-	private int flag;
 	private String mPath;
 	private String enCode;
 	private String[] encodeType = { "macroman", "windows-1255", "gb2312", "gbk", "unicode", "big5", "utf-8",
@@ -57,7 +54,7 @@ public class CodeBrowser extends Activity {
 	String[] jsAliases = { "js", "jscript", "javascript" };
 
 	String html = null;
-	CodeView rootView;
+	//	CodeView rootView;
 	private boolean mIssort = false;
 	private String codeType;
 
@@ -82,16 +79,22 @@ public class CodeBrowser extends Activity {
 			Arrays.sort(jsAliases);
 			mIssort = true;
 		}
-		rootView = new CodeView(this);
-		rootView.requestLayout();
+		//		rootView = new CodeView(this);
 		transMap.put(' ', "&nbsp;");
 		transMap.put('<', "&lt;");
 		transMap.put('&', "&amp;");
 		transMap.put('>', "&gt;");
 		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
-		browser = rootView.getWebview();
-		rootView.getALine().addView(new AdView(this));
-		setContentView(rootView);
+		//		browser = rootView.getWebview();
+		browser = new WebView(this);
+		browser.getSettings().setBuiltInZoomControls(true);
+		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+		browser.setHorizontalScrollBarEnabled(true);
+		browser.setHorizontalScrollbarOverlay(true);
+		browser.setVerticalScrollBarEnabled(true);
+		browser.resumeTimers();
+		//		rootView.getALine().addView(new AdView(this));
+		setContentView(browser);
 		Bundle bundle = this.getIntent().getExtras();
 		mPath = bundle.getString("filename");
 		File tFile = new File(mPath);
@@ -134,7 +137,6 @@ public class CodeBrowser extends Activity {
 			Log.v("codeType", codeType);
 		}
 		loadCode();
-		flag = 0;
 
 	}
 
@@ -160,7 +162,6 @@ public class CodeBrowser extends Activity {
 			browser.pauseTimers();
 			browser.stopLoading();
 			browser.clearView();
-			browser.destroy();
 		}
 		super.onDestroy();
 		if (DEBUG)
@@ -241,7 +242,7 @@ public class CodeBrowser extends Activity {
 		GlobalConfig.my_width = dm.widthPixels;
 		GlobalConfig.my_height = dm.heightPixels;
 		GlobalConfig.my_des = dm.density;
-		rootView.requestLayout();
+		//		rootView.requestLayout();
 		super.onConfigurationChanged(newConfig);
 		//		setContentView(rootView);
 	}

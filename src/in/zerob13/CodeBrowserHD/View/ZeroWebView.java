@@ -26,6 +26,6 @@ public class ZeroWebView extends WebView {
 	@Deprecated
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
-		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height - (int) (50 * GlobalConfig.my_des));
+		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height);
 	}
 }

@@ -58,7 +58,7 @@ public class CodeView extends ViewGroup {
 		browser.setVerticalScrollBarEnabled(true);
 		browser.resumeTimers();
 		this.addView(browser);
-		this.addView(aLine);
+//		this.addView(aLine);
 
 	}
 
@@ -80,15 +80,14 @@ public class CodeView extends ViewGroup {
 		int width = GlobalConfig.my_width;
 		int height = GlobalConfig.my_height;
 		double des = GlobalConfig.my_des;
-		browser.measure(GlobalConfig.my_width, GlobalConfig.my_height - (int) (50 * GlobalConfig.my_des));
-		browser.layout(0, 0, browser.getMeasuredWidth(),browser.getMeasuredHeight());
-		aLine.layout(0, height-(int) (50 * des), width, height);
+//		browser.measure(GlobalConfig.my_width, GlobalConfig.my_height);
+//		browser.layout(0, 0, browser.getMeasuredWidth(),browser.getMeasuredHeight());
 
 	}
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height);
+//		setMeasuredDimension(GlobalConfig.my_width, GlobalConfig.my_height);
 	}
 
 }

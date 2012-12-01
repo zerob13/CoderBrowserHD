@@ -21,14 +21,11 @@ public class FileChoser extends Activity {
 	ListView lv2;
 	Context me;
 
-	//	String fileEndings[] = { "cpp", "cc", "h", "hpp", "cxx", "hxx", "c", "c++",
-	//			"cs", "c#", "c-sharp", "csharp", "css", "jav", "java", "php",
-	//			"php4", "py", "python", "sh", "ksh", "csh", "shell", "rc", "init",
-	//			"4gl", "proc", "sql", "bas", "frm", "cls", "vbs", "ctl", "vb",
-	//			"vb.net", "asp", "jsp", "aspx", "htt", "htx", "phtml", "wml",
-	//			"rss", "xhtml", "shtml", "dhtml", "dtd", "html", "htm", "xhtml",
-	//			"xml", "xsd", "xsl", "xslt", "config", "js", "jscript",
-	//			"javascript" };
+	String fileEndings[] = { "cpp", "cc", "h", "hpp", "cxx", "hxx", "c", "c++", "cs", "c#", "c-sharp",
+			"csharp", "css", "jav", "java", "php", "php4", "py", "python", "sh", "ksh", "csh", "shell", "rc",
+			"init", "4gl", "proc", "sql", "bas", "frm", "cls", "vbs", "ctl", "vb", "vb.net", "asp", "jsp",
+			"aspx", "htt", "htx", "phtml", "wml", "rss", "xhtml", "shtml", "dhtml", "dtd", "html", "htm",
+			"xhtml", "xml", "xsd", "xsl", "xslt", "config", "js", "jscript", "javascript" };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,19 +42,19 @@ public class FileChoser extends Activity {
 		GlobalConfig.my_des = dm.density;
 		ap = new ExpBaseAdapter(this);
 		lv2.setAdapter(ap);
-		AdManager.init(getApplicationContext(),"9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
+		AdManager.init(getApplicationContext(), "9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
 		ListView.OnItemClickListener lv2click = new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView parent, View view, int position, long id) {
 
 				int fid = ap.getItemType((int) id);
 				String mPath = "";
-				if(fid == -1){
+				if (fid == -1) {
 					return;
 				}
 				if (fid == 1) {
 					String s1 = ap.getItem((int) id).name;
-					
+
 					if (s1.equals("..")) {
 						mPath = mCurrentDirectory.getParent();
 					} else {
@@ -103,30 +100,30 @@ public class FileChoser extends Activity {
 				fd.type = 1;
 				ap.addItem(fd);
 			} else {
-				//if (checkEnds(f.getName().toLowerCase())) {
-				fileData fd = new fileData();
-				fd.name = f.getName();
-				fd.type = 0;
-				ap.addItem(fd);
-				//}
+				if (checkEnds(f.getName().toLowerCase())) {
+					fileData fd = new fileData();
+					fd.name = f.getName();
+					fd.type = 0;
+					ap.addItem(fd);
+				}
 			}
 		}
-		fileData adData= new fileData();
-		adData.name="....";
-		adData.type=-1;
+		fileData adData = new fileData();
+		adData.name = "....";
+		adData.type = -1;
 		ap.addItem(adData);
 		ap.notifyDataSetChanged();
 		lv2.postInvalidate();
 	}
 
-	//	private boolean checkEnds(String checkItsEnd) {
-	//		for (String aEnd : fileEndings) {
-	//			if (checkItsEnd.endsWith(aEnd))
-	//				return true;
-	//		}
-	//		return false;
-	//
-	//	}
+	private boolean checkEnds(String checkItsEnd) {
+		for (String aEnd : fileEndings) {
+			if (checkItsEnd.endsWith(aEnd))
+				return true;
+		}
+		return false;
+
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
