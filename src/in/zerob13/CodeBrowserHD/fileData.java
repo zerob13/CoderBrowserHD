@@ -3,11 +3,9 @@ package in.zerob13.CodeBrowserHD;
 import java.util.Vector;
 
 import net.youmi.android.AdView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

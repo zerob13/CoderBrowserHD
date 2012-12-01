@@ -3,7 +3,6 @@ package in.zerob13.CodeBrowserHD;
 import java.io.File;
 
 import net.youmi.android.AdManager;
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
