@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import android.app.Activity;
 import android.content.Context;
@@ -57,6 +59,7 @@ public class CodeBrowser extends Activity {
 	//	CodeView rootView;
 	private boolean mIssort = false;
 	private String codeType;
+	private String codeBody;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -169,63 +172,36 @@ public class CodeBrowser extends Activity {
 	}
 
 	private void loadCode() {
-		StringBuffer temp2 = new StringBuffer();
-		for (int i = mPath.length() - 1; i >= 0; i--) {
-			if (mPath.charAt(i) != '.') {
-
-				if (mPath.charAt(i) >= 'A' && mPath.charAt(i) <= 'Z') {
-					temp2.append(mPath.charAt(i) - 'A' + 'a');
-				} else {
-					temp2.append(mPath.charAt(i));
-				}
-			} else
-				break;
-		}
-
-		temp2.reverse();
-		temp2.delete(0, temp2.length());
-
-		try {
-			// 构建一个带缓冲的字符型输入流
-			String line = null;
-			StringBuffer aBuffer = new StringBuffer();
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(mPath), enCode));
-			aBuffer.append("<head><META http-equiv=\"Content-Type\" content=\"text/html; charset=" + enCode
-					+ "\"><title>CoderBrowser by zerob13(www.zerob13.in)</title>");
-			aBuffer.append("\n");
-			aBuffer.append("<link href=\"prettify.css\" rel=\"stylesheet\" type=\"text/css\" />");
-			aBuffer.append("\n");
-			aBuffer.append("<script type=\"text/javascript\" src=\"prettify.js\"></script>");
-			aBuffer.append("\n");
-
-			aBuffer.append("</head>" + "\n<body onload=\"prettyPrint()\">");
-			aBuffer.append("\n");
-			aBuffer.append("<pre class=\"prettyprint" + codeType + "\">");
-			if (DEBUG) {
-				Log.d("pre", "<pre class=\"prettyprint" + codeType + "\">");
+		if (GlobalConfig.codeTemp == null) {
+			InputStream inptemp = this.getResources().openRawResource(R.raw.htmltemp);
+			Scanner aScanner = new Scanner(inptemp);
+			StringBuffer tempBuffer = new StringBuffer();
+			while (aScanner.hasNextLine()) {
+				tempBuffer.append(aScanner.nextLine());
+				tempBuffer.append("\n");
 			}
-			aBuffer.append("\n");
-			line = br.readLine();
-			while (line != null) {
-				temp2.delete(0, temp2.length());
+			GlobalConfig.codeTemp = tempBuffer.toString();
+		}
+		// 构建一个带缓冲的字符型输入流
+		String line = null;
+		StringBuffer aBuffer = new StringBuffer();
+		Scanner aScanner;
+		try {
+			aScanner = new Scanner(new File(mPath));
+			while (aScanner.hasNextLine()) {
+				line = aScanner.nextLine();
 				char chars[] = line.toCharArray();
 				for (char c : chars) {
-					temp2.append(((transMap.get(c) == null) ? c : transMap.get(c)));
+					aBuffer.append(((transMap.get(c) == null) ? c : transMap.get(c)));
 				}
-				temp2.append("\n");
-				aBuffer.append(temp2);
-				line = br.readLine();
+				aBuffer.append("\n");
 			}
-			aBuffer.append("</pre>");
-			aBuffer.append("\n");
-			aBuffer.append("</body>");
-			aBuffer.append("\n");
-			html = aBuffer.toString();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		codeBody = aBuffer.toString();
+		html = String.format(GlobalConfig.codeTemp, enCode, codeType, codeBody);
 		browser.clearView();
 		browser.stopLoading();
 		browser.getSettings().setSupportZoom(true);
