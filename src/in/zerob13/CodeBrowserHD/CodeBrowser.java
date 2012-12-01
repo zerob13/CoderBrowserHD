@@ -29,7 +29,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 
 public class CodeBrowser extends Activity {
-	private boolean DEBUG = true;
+	private boolean DEBUG = false;
 	private WebView browser;
 	private String mPath;
 	private String enCode;

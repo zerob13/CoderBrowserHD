@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -82,7 +81,7 @@ public class FileChoser extends Activity {
 		ap.clearItems();
 		ap.notifyDataSetChanged();
 		lv2.postInvalidate();
-		Log.v("vodone", "mpath=" + aDirectory.getPath());
+//		Log.v("vodone", "mpath=" + aDirectory.getPath());
 
 		if (!aDirectory.getPath().equals("/")) {
 			fileData fd = new fileData();
