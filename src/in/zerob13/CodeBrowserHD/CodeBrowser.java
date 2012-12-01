@@ -52,7 +52,6 @@ public class CodeBrowser extends Activity {
 	String[] jsAliases = { "js", "jscript", "javascript" };
 
 	String html = null;
-	//	CodeView rootView;
 	private boolean mIssort = false;
 	private String codeType;
 	private String codeBody;
@@ -78,13 +77,11 @@ public class CodeBrowser extends Activity {
 			Arrays.sort(jsAliases);
 			mIssort = true;
 		}
-		//		rootView = new CodeView(this);
 		transMap.put(' ', "&nbsp;");
 		transMap.put('<', "&lt;");
 		transMap.put('&', "&amp;");
 		transMap.put('>', "&gt;");
 		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
-		//		browser = rootView.getWebview();
 		browser = new WebView(this);
 		browser.getSettings().setBuiltInZoomControls(true);
 		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -92,7 +89,6 @@ public class CodeBrowser extends Activity {
 		browser.setHorizontalScrollbarOverlay(true);
 		browser.setVerticalScrollBarEnabled(true);
 		browser.resumeTimers();
-		//		rootView.getALine().addView(new AdView(this));
 		setContentView(browser);
 		Bundle bundle = this.getIntent().getExtras();
 		mPath = bundle.getString("filename");
