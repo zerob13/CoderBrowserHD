@@ -247,7 +247,6 @@ public class CodeBrowser extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		SubMenu filechose = menu.addSubMenu(Menu.NONE, -1, 0, "File Encoding");
 		for (int i = 0; i < encodeType.length; i++) {
 			filechose.add(Menu.NONE, i, 0, encodeType[i]);
