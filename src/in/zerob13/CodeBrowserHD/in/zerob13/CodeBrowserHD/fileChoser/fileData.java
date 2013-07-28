@@ -14,7 +14,12 @@
 
 package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.fileChoser;
 
-public class fileData {
-	public String name;
-	public int type;
+/**
+ * 文件信息类
+ */
+public class FileData {
+	/** 文件名 */
+	protected String mName;
+	/** 文件类型 */
+	protected int mType;
 }
