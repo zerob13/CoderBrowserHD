@@ -32,14 +32,14 @@ import net.youmi.android.AdView;
 public class ExpBaseAdapter extends BaseAdapter {
 	private Context mContext;
 	private Vector<fileData> mItems = new Vector<fileData>();
-	private AdView te;
-	private LinearLayout aLayout;
+	private AdView mAdView;
+	private LinearLayout mLinearLayout;
 
 	public ExpBaseAdapter(Context context) {
 		mContext = context;
-		te = new AdView((Activity) mContext);
-		aLayout = new LinearLayout(mContext);
-		aLayout.addView(te, new ViewGroup.LayoutParams(GlobalConfig.my_width,
+		mAdView = new AdView((Activity) mContext);
+		mLinearLayout = new LinearLayout(mContext);
+		mLinearLayout.addView(mAdView, new ViewGroup.LayoutParams(GlobalConfig.my_width,
 				(int) (80 * GlobalConfig.my_des)));
 	}
 
@@ -69,11 +69,11 @@ public class ExpBaseAdapter extends BaseAdapter {
 
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		if (getItem(arg0).name.equals("....") && getItem(arg0).type == -1) {
-			return aLayout;
+			return mLinearLayout;
 		}
 		LayoutInflater inflate = (LayoutInflater) mContext
 				.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
-		arg1 = (LinearLayout) inflate.inflate(R.layout.listfile, null);
+		arg1 = inflate.inflate(R.layout.listfile, null);
 		TextView fm_text_01 = (TextView) arg1.findViewById(R.id.fm_text_01);
 		if (getItem(arg0).type == 1) {
 			fm_text_01.setTextColor(Color.WHITE);

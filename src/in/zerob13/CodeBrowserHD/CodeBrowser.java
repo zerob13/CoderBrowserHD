@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -43,27 +42,10 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 
 public class CodeBrowser extends Activity {
-	private boolean DEBUG = false;
 	private WebView browser;
 	private String mPath;
 	private String enCode;
-	private String[] encodeType = { "macroman", "windows-1255", "gb2312", "gbk", "unicode", "big5", "utf-8",
-			"utf-16", "utf-2", "utf-32", "utf-7", "iso-10646", "iso-2022", "iso-2022-cn", "iso-2022-cn-ext",
-			"iso-2022-jp", "iso-2022-kr", "iso-646", "iso-8859", "iso-ir-111", "acii", "ascii", "ascii-1963",
-			"ascii-1968", "adobe standard encoding", "cp1250", "cp1251", "dbcs", "cp1252", "codepage",
-			"hp-roman", "ibm dbcs", "shift-jis", "sjis" };
 	private Map<Character, String> transMap = new HashMap<Character, String>();
-	Context me;
-	String[] cppAliases = { "cpp", "cc", "h", "hpp", "cxx", "hxx", "c", "c++" };
-	String[] csharpAliases = { "cs", "c#", "c-sharp", "csharp" };
-	String[] cssAliases = { "css" };
-	String[] javaAliases = { "jav", "java" };
-	String[] phpAliases = { "php", "php4" };
-	String[] pythonAliases = { "py", "python" };
-	String[] bashAliases = { "sh", "ksh", "csh", "shell", "rc", "init" };
-	String[] xmlAliases = { "asp", "jsp", "aspx", "htt", "htx", "phtml", "wml", "rss", "xhtml", "shtml",
-			"dhtml", "dtd", "html", "htm", "xhtml", "xml", "xsd", "xsl", "xslt", "config" };
-	String[] jsAliases = { "js", "jscript", "javascript" };
 
 	String html = null;
 	private boolean mIssort = false;
@@ -82,14 +64,14 @@ public class CodeBrowser extends Activity {
 		GlobalConfig.my_height = dm.heightPixels;
 		GlobalConfig.my_des = dm.density;
 		if (!mIssort) {
-			Arrays.sort(cppAliases);
-			Arrays.sort(csharpAliases);
-			Arrays.sort(javaAliases);
-			Arrays.sort(phpAliases);
-			Arrays.sort(pythonAliases);
-			Arrays.sort(bashAliases);
-			Arrays.sort(xmlAliases);
-			Arrays.sort(jsAliases);
+			Arrays.sort(GlobalConfig.CPP_ALIASES);
+			Arrays.sort(GlobalConfig.CSHARP_ALIASES);
+			Arrays.sort(GlobalConfig.JAVA_ALIASES);
+			Arrays.sort(GlobalConfig.PHP_ALIASES);
+			Arrays.sort(GlobalConfig.PYTHON_ALIASES);
+			Arrays.sort(GlobalConfig.BASH_ALIASES);
+			Arrays.sort(GlobalConfig.XML_ALIASES);
+			Arrays.sort(GlobalConfig.JS_ALIASES);
 			mIssort = true;
 		}
 		transMap.put(' ', "&nbsp;");
@@ -112,28 +94,28 @@ public class CodeBrowser extends Activity {
 		String[] tnameString = tFile.getName().split("\\.");
 		if (tnameString.length > 1) {
 			String endString = tnameString[tnameString.length - 1].toLowerCase();
-			if (Arrays.binarySearch(cppAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.CPP_ALIASES, endString) >= 0) {
 				codeType = " lang-cpp";
 			}
-			if (Arrays.binarySearch(csharpAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.CSHARP_ALIASES, endString) >= 0) {
 				codeType = " lang-cs";
 			}
-			if (Arrays.binarySearch(javaAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.JAVA_ALIASES, endString) >= 0) {
 				codeType = " lang-java";
 			}
-			if (Arrays.binarySearch(phpAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.PHP_ALIASES, endString) >= 0) {
 				codeType = " lang-php";
 			}
-			if (Arrays.binarySearch(pythonAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.PYTHON_ALIASES, endString) >= 0) {
 				codeType = " lang-python";
 			}
-			if (Arrays.binarySearch(bashAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.BASH_ALIASES, endString) >= 0) {
 				codeType = " lang-bsh";
 			}
-			if (Arrays.binarySearch(xmlAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.XML_ALIASES, endString) >= 0) {
 				codeType = " lang-xml";
 			}
-			if (Arrays.binarySearch(jsAliases, endString) >= 0) {
+			if (Arrays.binarySearch(GlobalConfig.JS_ALIASES, endString) >= 0) {
 				codeType = " lang-js";
 			}
 		}
@@ -142,7 +124,7 @@ public class CodeBrowser extends Activity {
 		} else {
 			enCode = "UTF-8";
 		}
-		if (DEBUG) {
+		if (GlobalConfig.DEBUG) {
 			Log.v("encode", enCode);
 			Log.v("codeType", codeType);
 		}
@@ -161,7 +143,7 @@ public class CodeBrowser extends Activity {
 		} else {
 			enCode = "UTF-8";
 		}
-		if (DEBUG)
+		if (GlobalConfig.DEBUG)
 			Log.v("onnew Intent ", enCode);
 		loadCode(false);
 	}
@@ -174,7 +156,7 @@ public class CodeBrowser extends Activity {
 			browser.clearView();
 		}
 		super.onDestroy();
-		if (DEBUG)
+		if (GlobalConfig.DEBUG)
 			Log.d("onDestroy", "destory");
 	}
 
@@ -205,7 +187,6 @@ public class CodeBrowser extends Activity {
 					aBuffer.append("\n");
 				}
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			codeBody = aBuffer.toString();
@@ -237,7 +218,6 @@ public class CodeBrowser extends Activity {
 	}
 
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -273,19 +253,19 @@ public class CodeBrowser extends Activity {
 		SubMenu ThemeChose = menu.addSubMenu(2, -2, 1, R.string.theme_select);
 		ThemeChose.add(2, 0, 0, R.string.theme_day);
 		ThemeChose.add(2, 1, 0, R.string.theme_night);
-		for (int i = 0; i < encodeType.length; i++) {
-			filechose.add(1, i, 0, encodeType[i]);
+		for (int i = 0; i < GlobalConfig.ENCODE_TYPE.length; i++) {
+			filechose.add(1, i, 0, GlobalConfig.ENCODE_TYPE[i]);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (DEBUG)
+		if (GlobalConfig.DEBUG)
 			Log.v("encode", String.valueOf((item.getItemId())));
 		if (item.getGroupId() == 1) {
 			if (item.getItemId() != -1) {
-				enCode = encodeType[item.getItemId()];
+				enCode = GlobalConfig.ENCODE_TYPE[item.getItemId()];
 				loadCode(true);
 			}
 		} else if (item.getGroupId() == 2) {
