@@ -19,16 +19,19 @@ import java.util.Vector;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
-import in.zerob13.CodeBrowserHD.R;
 import net.youmi.android.AdView;
 
+/**
+ * 文件listView的Adapter
+ */
 public class ExpBaseAdapter extends BaseAdapter {
 	private Context mContext;
 	private Vector<FileData> mItems = new Vector<FileData>();
@@ -71,18 +74,20 @@ public class ExpBaseAdapter extends BaseAdapter {
 		if (getItem(arg0).mName.equals("....") && getItem(arg0).mType == -1) {
 			return mLinearLayout;
 		}
-		LayoutInflater inflate = (LayoutInflater) mContext
-				.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
-		arg1 = inflate.inflate(R.layout.listfile, null);
-		TextView fmText01 = (TextView) arg1.findViewById(R.id.fm_text_01);
+		TextView fmText01 = new TextView(mContext);
 		if (getItem(arg0).mType == 1) {
-			fmText01.setTextColor(Color.WHITE);
+			fmText01.setTextColor(0xfff0f0f0);
 		} else {
-			fmText01.setTextColor(Color.BLUE);
+			fmText01.setTextColor(Color.RED);
 		}
 		fmText01.setText(getItem(arg0).mName + "\n");
+        ListView.LayoutParams layoutParams =  new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                (int) (50 * GlobalConfig.sDes));
+		fmText01.setLayoutParams(layoutParams);
+        fmText01.setTextSize(19);
+        fmText01.setGravity(Gravity.CENTER_VERTICAL);
 
-		return arg1;
+		return fmText01;
 	}
 
 }

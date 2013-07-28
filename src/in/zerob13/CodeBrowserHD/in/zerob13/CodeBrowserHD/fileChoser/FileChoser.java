@@ -30,6 +30,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+/**
+ * 文件选择器
+ */
 public class FileChoser extends Activity {
 	private File mCurrentDirectory = Environment.getExternalStorageDirectory();
 	private ExpBaseAdapter mAdapter;
@@ -94,6 +97,10 @@ public class FileChoser extends Activity {
 		mListView.setOnItemClickListener(lv2click);
 	}
 
+    /**
+     * 列文件
+     * @param aDirectory 目录
+     */
 	private void toListFile(File aDirectory) {
 		mAdapter.clearItems();
 		mAdapter.notifyDataSetChanged();
@@ -132,6 +139,11 @@ public class FileChoser extends Activity {
 		mListView.postInvalidate();
 	}
 
+    /**
+     * 检查文件后缀
+     * @param checkItsEnd 文件名
+     * @return 是否是符合要求的后缀
+     */
 	private boolean checkEnds(String checkItsEnd) {
 		for (String aEnd : FILE_ENDINGS) {
 			if (checkItsEnd.endsWith(aEnd)) {
