@@ -12,8 +12,9 @@
  *  2013-7-28    Yang Lingfeng      1.0         1.0 Version
  */
 
-package in.zerob13.CodeBrowserHD;
+package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main;
 
+import in.zerob13.CodeBrowserHD.R;
 import info.monitorenter.cpdetector.io.ASCIIDetector;
 import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
 import info.monitorenter.cpdetector.io.JChardetFacade;
@@ -41,17 +42,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+/**
+ * 浏览代码Activity
+ */
 public class CodeBrowser extends Activity {
-	private WebView browser;
-	private String mPath;
-	private String enCode;
-	private Map<Character, String> transMap = new HashMap<Character, String>();
 
-	String html = null;
+	private WebView mCodeView;
+	private String mPath;
+	private String mEncode;
+	private Map<Character, String> mTransMap = new HashMap<Character, String>();
+	private String html = null;
 	private boolean mIssort = false;
-	private String codeType;
-	private String codeBody;
-	private boolean isDayTheme = false;
+	private String mCodeType;
+	private String mCodeBody;
+	private boolean mIsDayTime = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,9 @@ public class CodeBrowser extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		DisplayMetrics dm = new DisplayMetrics();
 		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		GlobalConfig.my_width = dm.widthPixels;
-		GlobalConfig.my_height = dm.heightPixels;
-		GlobalConfig.my_des = dm.density;
+		GlobalConfig.sWidth = dm.widthPixels;
+		GlobalConfig.sHeight = dm.heightPixels;
+		GlobalConfig.sDes = dm.density;
 		if (!mIssort) {
 			Arrays.sort(GlobalConfig.CPP_ALIASES);
 			Arrays.sort(GlobalConfig.CSHARP_ALIASES);
@@ -74,59 +78,59 @@ public class CodeBrowser extends Activity {
 			Arrays.sort(GlobalConfig.JS_ALIASES);
 			mIssort = true;
 		}
-		transMap.put(' ', "&nbsp;");
-		transMap.put('<', "&lt;");
-		transMap.put('&', "&amp;");
-		transMap.put('>', "&gt;");
-		setTitle("CodeBrowser By zerob13(www.zerob13.in)");
-		browser = new WebView(this);
-		browser.getSettings().setBuiltInZoomControls(true);
-		browser.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-		browser.setHorizontalScrollBarEnabled(true);
-		browser.setHorizontalScrollbarOverlay(true);
-		browser.setVerticalScrollBarEnabled(true);
-		browser.resumeTimers();
-		setContentView(browser);
+		mTransMap.put(' ', "&nbsp;");
+		mTransMap.put('<', "&lt;");
+		mTransMap.put('&', "&amp;");
+		mTransMap.put('>', "&gt;");
+		setTitle(R.string.app_title);
+		mCodeView = new WebView(this);
+		mCodeView.getSettings().setBuiltInZoomControls(true);
+		mCodeView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+		mCodeView.setHorizontalScrollBarEnabled(true);
+		mCodeView.setHorizontalScrollbarOverlay(true);
+		mCodeView.setVerticalScrollBarEnabled(true);
+		mCodeView.resumeTimers();
+		setContentView(mCodeView);
 		Bundle bundle = this.getIntent().getExtras();
 		mPath = bundle.getString("filename");
 		File tFile = new File(mPath);
-		codeType = "";
+		mCodeType = "";
 		String[] tnameString = tFile.getName().split("\\.");
 		if (tnameString.length > 1) {
 			String endString = tnameString[tnameString.length - 1].toLowerCase();
 			if (Arrays.binarySearch(GlobalConfig.CPP_ALIASES, endString) >= 0) {
-				codeType = " lang-cpp";
+				mCodeType = " lang-cpp";
 			}
 			if (Arrays.binarySearch(GlobalConfig.CSHARP_ALIASES, endString) >= 0) {
-				codeType = " lang-cs";
+				mCodeType = " lang-cs";
 			}
 			if (Arrays.binarySearch(GlobalConfig.JAVA_ALIASES, endString) >= 0) {
-				codeType = " lang-java";
+				mCodeType = " lang-java";
 			}
 			if (Arrays.binarySearch(GlobalConfig.PHP_ALIASES, endString) >= 0) {
-				codeType = " lang-php";
+				mCodeType = " lang-php";
 			}
 			if (Arrays.binarySearch(GlobalConfig.PYTHON_ALIASES, endString) >= 0) {
-				codeType = " lang-python";
+				mCodeType = " lang-python";
 			}
 			if (Arrays.binarySearch(GlobalConfig.BASH_ALIASES, endString) >= 0) {
-				codeType = " lang-bsh";
+				mCodeType = " lang-bsh";
 			}
 			if (Arrays.binarySearch(GlobalConfig.XML_ALIASES, endString) >= 0) {
-				codeType = " lang-xml";
+				mCodeType = " lang-xml";
 			}
 			if (Arrays.binarySearch(GlobalConfig.JS_ALIASES, endString) >= 0) {
-				codeType = " lang-js";
+				mCodeType = " lang-js";
 			}
 		}
 		if (tFile.length() < 1024 * 32 * 8) {
-			enCode = getEncode(mPath);
+			mEncode = getEncode(mPath);
 		} else {
-			enCode = "UTF-8";
+			mEncode = "UTF-8";
 		}
 		if (GlobalConfig.DEBUG) {
-			Log.v("encode", enCode);
-			Log.v("codeType", codeType);
+			Log.v("encode", mEncode);
+			Log.v("mCodeType", mCodeType);
 		}
 		loadCode(false);
 
@@ -139,29 +143,31 @@ public class CodeBrowser extends Activity {
 		mPath = bundle.getString("filename");
 		File tFile = new File(mPath);
 		if (tFile.length() < 1024 * 32 * 8) {
-			enCode = getEncode(mPath);
+			mEncode = getEncode(mPath);
 		} else {
-			enCode = "UTF-8";
+			mEncode = "UTF-8";
 		}
-		if (GlobalConfig.DEBUG)
-			Log.v("onnew Intent ", enCode);
+		if (GlobalConfig.DEBUG) {
+			Log.v("onnew Intent ", mEncode);
+		}
 		loadCode(false);
 	}
 
 	@Override
 	protected void onDestroy() {
-		if (browser != null) {
-			browser.pauseTimers();
-			browser.stopLoading();
-			browser.clearView();
+		if (mCodeView != null) {
+			mCodeView.pauseTimers();
+			mCodeView.stopLoading();
+			mCodeView.clearView();
 		}
 		super.onDestroy();
-		if (GlobalConfig.DEBUG)
+		if (GlobalConfig.DEBUG) {
 			Log.d("onDestroy", "destory");
+		}
 	}
 
 	private void loadCode(boolean noReset) {
-		if (GlobalConfig.codeTemp == null) {
+		if (GlobalConfig.sCodeTemp == null) {
 			InputStream inptemp = this.getResources().openRawResource(R.raw.htmltemp);
 			Scanner aScanner = new Scanner(inptemp);
 			StringBuffer tempBuffer = new StringBuffer();
@@ -169,7 +175,7 @@ public class CodeBrowser extends Activity {
 				tempBuffer.append(aScanner.nextLine());
 				tempBuffer.append("\n");
 			}
-			GlobalConfig.codeTemp = tempBuffer.toString();
+			GlobalConfig.sCodeTemp = tempBuffer.toString();
 		}
 		// 构建一个带缓冲的字符型输入流
 		if (!noReset) {
@@ -182,36 +188,36 @@ public class CodeBrowser extends Activity {
 					line = aScanner.nextLine();
 					char chars[] = line.toCharArray();
 					for (char c : chars) {
-						aBuffer.append(((transMap.get(c) == null) ? c : transMap.get(c)));
+						aBuffer.append(((mTransMap.get(c) == null) ? c : mTransMap.get(c)));
 					}
 					aBuffer.append("\n");
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			codeBody = aBuffer.toString();
+			mCodeBody = aBuffer.toString();
 		}
-		if (isDayTheme) {
-			html = String.format(GlobalConfig.codeTemp, enCode, "prettify-day.css", codeType, codeBody);
+		if (mIsDayTime) {
+			html = String.format(GlobalConfig.sCodeTemp, mEncode, "prettify-day.css", mCodeType, mCodeBody);
 		} else {
-			html = String.format(GlobalConfig.codeTemp, enCode, "prettify.css", codeType, codeBody);
+			html = String.format(GlobalConfig.sCodeTemp, mEncode, "prettify.css", mCodeType, mCodeBody);
 		}
-		browser.clearView();
-		browser.stopLoading();
-		browser.getSettings().setSupportZoom(true);
-		browser.getSettings().setJavaScriptEnabled(true);
-		browser.getSettings().setAllowFileAccess(true);
-		browser.getSettings().setUseWideViewPort(true);
-		browser.loadDataWithBaseURL("file:///android_asset/", html, "text/html", enCode, null);
+		mCodeView.clearView();
+		mCodeView.stopLoading();
+		mCodeView.getSettings().setSupportZoom(true);
+		mCodeView.getSettings().setJavaScriptEnabled(true);
+		mCodeView.getSettings().setAllowFileAccess(true);
+		mCodeView.getSettings().setUseWideViewPort(true);
+		mCodeView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", mEncode, null);
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		DisplayMetrics dm = new DisplayMetrics();
 		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		GlobalConfig.my_width = dm.widthPixels;
-		GlobalConfig.my_height = dm.heightPixels;
-		GlobalConfig.my_des = dm.density;
+		GlobalConfig.sWidth = dm.widthPixels;
+		GlobalConfig.sHeight = dm.heightPixels;
+		GlobalConfig.sDes = dm.density;
 		//		rootView.requestLayout();
 		super.onConfigurationChanged(newConfig);
 		//		setContentView(rootView);
@@ -221,7 +227,7 @@ public class CodeBrowser extends Activity {
 
 	}
 
-	private String getEncode(String mPath) {
+	private String getEncode(String aPath) {
 
 		CodepageDetectorProxy detector = CodepageDetectorProxy.getInstance();
 		detector.add(new ParsingDetector(false));
@@ -231,7 +237,7 @@ public class CodeBrowser extends Activity {
 		detector.add(UnicodeDetector.getInstance());
 
 		java.nio.charset.Charset charset = null;
-		File f = new File(mPath);
+		File f = new File(aPath);
 		try {
 
 			charset = detector.detectCodepage(f.toURI().toURL());
@@ -240,19 +246,20 @@ public class CodeBrowser extends Activity {
 
 			ex.printStackTrace();
 		}
-		if (charset != null)
+		if (charset != null) {
 			return charset.name();
-		else
+		} else {
 			return "UTF-8";
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu filechose = menu.addSubMenu(1, -1, 0, R.string.encode_select);
 
-		SubMenu ThemeChose = menu.addSubMenu(2, -2, 1, R.string.theme_select);
-		ThemeChose.add(2, 0, 0, R.string.theme_day);
-		ThemeChose.add(2, 1, 0, R.string.theme_night);
+		SubMenu themeChose = menu.addSubMenu(2, -2, 1, R.string.theme_select);
+		themeChose.add(2, 0, 0, R.string.theme_day);
+		themeChose.add(2, 1, 0, R.string.theme_night);
 		for (int i = 0; i < GlobalConfig.ENCODE_TYPE.length; i++) {
 			filechose.add(1, i, 0, GlobalConfig.ENCODE_TYPE[i]);
 		}
@@ -261,20 +268,21 @@ public class CodeBrowser extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (GlobalConfig.DEBUG)
+		if (GlobalConfig.DEBUG) {
 			Log.v("encode", String.valueOf((item.getItemId())));
+		}
 		if (item.getGroupId() == 1) {
 			if (item.getItemId() != -1) {
-				enCode = GlobalConfig.ENCODE_TYPE[item.getItemId()];
+				mEncode = GlobalConfig.ENCODE_TYPE[item.getItemId()];
 				loadCode(true);
 			}
 		} else if (item.getGroupId() == 2) {
 
 			if (item.getItemId() == 0) {
-				isDayTheme = true;
+				mIsDayTime = true;
 				loadCode(true);
 			} else if (item.getItemId() == 1) {
-				isDayTheme = false;
+				mIsDayTime = false;
 				loadCode(true);
 			}
 

@@ -25,13 +25,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import in.zerob13.CodeBrowserHD.GlobalConfig;
+import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
 import in.zerob13.CodeBrowserHD.R;
 import net.youmi.android.AdView;
 
 public class ExpBaseAdapter extends BaseAdapter {
 	private Context mContext;
-	private Vector<fileData> mItems = new Vector<fileData>();
+	private Vector<FileData> mItems = new Vector<FileData>();
 	private AdView mAdView;
 	private LinearLayout mLinearLayout;
 
@@ -39,16 +39,16 @@ public class ExpBaseAdapter extends BaseAdapter {
 		mContext = context;
 		mAdView = new AdView((Activity) mContext);
 		mLinearLayout = new LinearLayout(mContext);
-		mLinearLayout.addView(mAdView, new ViewGroup.LayoutParams(GlobalConfig.my_width,
-				(int) (80 * GlobalConfig.my_des)));
+		mLinearLayout.addView(mAdView, new ViewGroup.LayoutParams(GlobalConfig.sWidth,
+				(int) (80 * GlobalConfig.sDes)));
 	}
 
-	public void addItem(fileData it) {
+	public void addItem(FileData it) {
 		mItems.add(it);
 	}
 
-	public fileData getItem(int it) {
-		return (fileData) mItems.elementAt(it);
+	public FileData getItem(int it) {
+		return (FileData) mItems.elementAt(it);
 	}
 
 	public int getCount() {
@@ -60,7 +60,7 @@ public class ExpBaseAdapter extends BaseAdapter {
 	}
 
 	public int getItemType(int arg0) {
-		return getItem(arg0).type;
+		return getItem(arg0).mType;
 	}
 
 	public void clearItems() {
@@ -68,19 +68,19 @@ public class ExpBaseAdapter extends BaseAdapter {
 	}
 
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
-		if (getItem(arg0).name.equals("....") && getItem(arg0).type == -1) {
+		if (getItem(arg0).mName.equals("....") && getItem(arg0).mType == -1) {
 			return mLinearLayout;
 		}
 		LayoutInflater inflate = (LayoutInflater) mContext
 				.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
 		arg1 = inflate.inflate(R.layout.listfile, null);
-		TextView fm_text_01 = (TextView) arg1.findViewById(R.id.fm_text_01);
-		if (getItem(arg0).type == 1) {
-			fm_text_01.setTextColor(Color.WHITE);
+		TextView fmText01 = (TextView) arg1.findViewById(R.id.fm_text_01);
+		if (getItem(arg0).mType == 1) {
+			fmText01.setTextColor(Color.WHITE);
 		} else {
-			fm_text_01.setTextColor(Color.BLUE);
+			fmText01.setTextColor(Color.BLUE);
 		}
-		fm_text_01.setText(getItem(arg0).name + "\n");
+		fmText01.setText(getItem(arg0).mName + "\n");
 
 		return arg1;
 	}

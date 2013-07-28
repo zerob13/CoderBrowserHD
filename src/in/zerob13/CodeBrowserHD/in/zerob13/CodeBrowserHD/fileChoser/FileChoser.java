@@ -16,8 +16,9 @@ package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.fileChoser;
 
 import java.io.File;
 
-import in.zerob13.CodeBrowserHD.CodeBrowser;
-import in.zerob13.CodeBrowserHD.GlobalConfig;
+import android.os.Environment;
+import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.CodeBrowser;
+import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
 import in.zerob13.CodeBrowserHD.R;
 import net.youmi.android.AdManager;
 import android.app.Activity;
@@ -30,7 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class FileChoser extends Activity {
-	private File mCurrentDirectory = new File("/sdcard/");
+	private File mCurrentDirectory = Environment.getExternalStorageDirectory();
 	private ExpBaseAdapter mAdapter;
 	private ListView mListView;
 
@@ -51,9 +52,9 @@ public class FileChoser extends Activity {
 		mListView.setCacheColorHint(0x00000000);
 		DisplayMetrics dm = new DisplayMetrics();
 		this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		GlobalConfig.my_width = dm.widthPixels;
-		GlobalConfig.my_height = dm.heightPixels;
-		GlobalConfig.my_des = dm.density;
+		GlobalConfig.sWidth = dm.widthPixels;
+		GlobalConfig.sHeight = dm.heightPixels;
+		GlobalConfig.sDes = dm.density;
 		mAdapter = new ExpBaseAdapter(this);
 		mListView.setAdapter(mAdapter);
 		AdManager.init(getApplicationContext(), "9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
@@ -67,7 +68,7 @@ public class FileChoser extends Activity {
 					return;
 				}
 				if (fid == 1) {
-					String s1 = mAdapter.getItem((int) id).name;
+					String s1 = mAdapter.getItem((int) id).mName;
 
 					if (s1.equals("..")) {
 						mPath = mCurrentDirectory.getParent();
@@ -75,11 +76,11 @@ public class FileChoser extends Activity {
 						mPath = mCurrentDirectory.getPath() + "/" + s1 + "/";
 					}
 					mCurrentDirectory = new File(mPath);
-					ListFile(mCurrentDirectory);
+					toListFile(mCurrentDirectory);
 				} else {
 					Bundle bundle = new Bundle();
 					bundle.putString("filename",
-							mCurrentDirectory.getPath() + "/" + mAdapter.getItem((int) id).name);
+							mCurrentDirectory.getPath() + "/" + mAdapter.getItem((int) id).mName);
 					Intent mIntent = new Intent();
 					mIntent.setClass(FileChoser.this, CodeBrowser.class);
 					mIntent.putExtras(bundle);
@@ -89,42 +90,43 @@ public class FileChoser extends Activity {
 			}
 
 		};
-		ListFile(mCurrentDirectory);
+		toListFile(mCurrentDirectory);
 		mListView.setOnItemClickListener(lv2click);
 	}
 
-	private void ListFile(File aDirectory) {
+	private void toListFile(File aDirectory) {
 		mAdapter.clearItems();
 		mAdapter.notifyDataSetChanged();
 		mListView.postInvalidate();
 		//		Log.v("vodone", "mpath=" + aDirectory.getPath());
 
 		if (!aDirectory.getPath().equals("/")) {
-			fileData fd = new fileData();
-			fd.name = "..";
-			fd.type = 1;
+			FileData fd = new FileData();
+			fd.mName = "..";
+			fd.mType = 1;
 			mAdapter.addItem(fd);
 		}
 		for (File f : aDirectory.listFiles()) {
-			if (!f.canRead() || f.isHidden())
+			if (!f.canRead() || f.isHidden()) {
 				continue;
+			}
 			if (f.isDirectory()) {
-				fileData fd = new fileData();
-				fd.name = f.getName();
-				fd.type = 1;
+				FileData fd = new FileData();
+				fd.mName = f.getName();
+				fd.mType = 1;
 				mAdapter.addItem(fd);
 			} else {
 				if (checkEnds(f.getName().toLowerCase())) {
-					fileData fd = new fileData();
-					fd.name = f.getName();
-					fd.type = 0;
+					FileData fd = new FileData();
+					fd.mName = f.getName();
+					fd.mType = 0;
 					mAdapter.addItem(fd);
 				}
 			}
 		}
-		fileData adData = new fileData();
-		adData.name = "....";
-		adData.type = -1;
+		FileData adData = new FileData();
+		adData.mName = "....";
+		adData.mType = -1;
 		mAdapter.addItem(adData);
 		mAdapter.notifyDataSetChanged();
 		mListView.postInvalidate();
@@ -132,8 +134,9 @@ public class FileChoser extends Activity {
 
 	private boolean checkEnds(String checkItsEnd) {
 		for (String aEnd : FILE_ENDINGS) {
-			if (checkItsEnd.endsWith(aEnd))
+			if (checkItsEnd.endsWith(aEnd)) {
 				return true;
+			}
 		}
 		return false;
 
@@ -149,7 +152,7 @@ public class FileChoser extends Activity {
 			} else {
 				mCurrentDirectory = new File(mCurrentDirectory.getParent());
 
-				ListFile(mCurrentDirectory);
+				toListFile(mCurrentDirectory);
 
 			}
 			return true;
@@ -161,7 +164,6 @@ public class FileChoser extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
 		System.exit(0);
 	}
 
