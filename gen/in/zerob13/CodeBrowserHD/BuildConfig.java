@@ -1,3 +1,5 @@
+/*___Generated_by_IDEA___*/
+
 /** Automatically generated file. DO NOT MODIFY */
 package in.zerob13.CodeBrowserHD;
 
