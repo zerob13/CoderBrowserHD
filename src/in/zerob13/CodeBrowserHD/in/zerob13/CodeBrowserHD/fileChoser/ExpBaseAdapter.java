@@ -14,9 +14,6 @@
 
 package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.fileChoser;
 
-import java.util.Vector;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -26,8 +23,10 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.Vector;
+
 import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
-import net.youmi.android.AdView;
 
 /**
  * 文件listView的Adapter
@@ -35,15 +34,11 @@ import net.youmi.android.AdView;
 public class ExpBaseAdapter extends BaseAdapter {
 	private Context mContext;
 	private Vector<FileData> mItems = new Vector<FileData>();
-	private AdView mAdView;
 	private LinearLayout mLinearLayout;
 
 	public ExpBaseAdapter(Context context) {
 		mContext = context;
-		mAdView = new AdView((Activity) mContext);
 		mLinearLayout = new LinearLayout(mContext);
-		mLinearLayout.addView(mAdView, new ViewGroup.LayoutParams(GlobalConfig.sWidth,
-				(int) (80 * GlobalConfig.sDes)));
 	}
 
 	public void addItem(FileData it) {

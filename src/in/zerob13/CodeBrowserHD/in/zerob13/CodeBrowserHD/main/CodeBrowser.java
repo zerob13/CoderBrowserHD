@@ -14,21 +14,6 @@
 
 package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main;
 
-import in.zerob13.CodeBrowserHD.R;
-import info.monitorenter.cpdetector.io.ASCIIDetector;
-import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
-import info.monitorenter.cpdetector.io.JChardetFacade;
-import info.monitorenter.cpdetector.io.ParsingDetector;
-import info.monitorenter.cpdetector.io.UnicodeDetector;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -41,6 +26,21 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import in.zerob13.CodeBrowserHD.R;
+import info.monitorenter.cpdetector.io.ASCIIDetector;
+import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
+import info.monitorenter.cpdetector.io.JChardetFacade;
+import info.monitorenter.cpdetector.io.ParsingDetector;
+import info.monitorenter.cpdetector.io.UnicodeDetector;
 
 /**
  * 浏览代码Activity

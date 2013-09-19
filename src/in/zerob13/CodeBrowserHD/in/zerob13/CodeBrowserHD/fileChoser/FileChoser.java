@@ -14,21 +14,21 @@
 
 package in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.fileChoser;
 
-import java.io.File;
-
-import android.os.Environment;
-import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.CodeBrowser;
-import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
-import in.zerob13.CodeBrowserHD.R;
-import net.youmi.android.AdManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.io.File;
+
+import in.zerob13.CodeBrowserHD.R;
+import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.CodeBrowser;
+import in.zerob13.CodeBrowserHD.in.zerob13.CodeBrowserHD.main.GlobalConfig;
 
 /**
  * 文件选择器
@@ -60,7 +60,6 @@ public class FileChoser extends Activity {
 		GlobalConfig.sDes = dm.density;
 		mAdapter = new ExpBaseAdapter(this);
 		mListView.setAdapter(mAdapter);
-		AdManager.init(getApplicationContext(), "9820e7674f3eb1a7", "d59234552b2ee037", 30, false);
 		ListView.OnItemClickListener lv2click = new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView parent, View view, int position, long id) {
