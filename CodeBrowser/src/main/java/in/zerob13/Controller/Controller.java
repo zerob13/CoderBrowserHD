@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import in.zerob13.CodeBrowserHD.R;
 import in.zerob13.UI.UI;
 
 /**
@@ -116,13 +117,13 @@ public class Controller implements UiController, ActivityController {
 
 	@Override
 	public void onDestroy() {
-        mUi.onDestroy();
+		mUi.onDestroy();
 
 	}
 
 	@Override
 	public void onConfgurationChanged(Configuration newConfig) {
-        mUi.onConfigurationChanged(newConfig);
+		mUi.onConfigurationChanged(newConfig);
 
 	}
 
@@ -133,7 +134,8 @@ public class Controller implements UiController, ActivityController {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return false;
+		mActivity.getMenuInflater().inflate(R.menu.file, menu);
+		return true;
 	}
 
 	@Override

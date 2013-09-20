@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.widget.TextView;
 
 import in.zerob13.Controller.Controller;
 import in.zerob13.UI.BaseUi;
@@ -34,7 +35,7 @@ public class CodeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = createController();
-        mController.start(getIntent());
+		mController.start(getIntent());
 
 	}
 
@@ -43,53 +44,51 @@ public class CodeActivity extends Activity {
 		UI ui = null;
 		ui = new BaseUi(this, controller);
 		controller.setUi(ui);
-        controller.setCurrentLayout(R.layout.activity_file);
+		controller.setCurrentLayout(R.layout.activity_file);
 		return controller;
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.file, menu);
-		return true;
+		return mController.onCreateOptionsMenu(menu);
 	}
 
-    @Override
-    protected void onPause() {
-        mController.onPause();
-        super.onPause();
-    }
+	@Override
+	protected void onPause() {
+		mController.onPause();
+		super.onPause();
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mController.onResume();
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mController.onResume();
+	}
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
 
-    @Override
-    protected void onDestroy() {
-        mController.onDestroy();
-        super.onDestroy();
-    }
+	@Override
+	protected void onDestroy() {
+		mController.onDestroy();
+		super.onDestroy();
+	}
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mController.onConfgurationChanged(newConfig);
-    }
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mController.onConfgurationChanged(newConfig);
+	}
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return super.onKeyDown(keyCode, event);
-    }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return super.onKeyDown(keyCode, event);
+	}
 }
