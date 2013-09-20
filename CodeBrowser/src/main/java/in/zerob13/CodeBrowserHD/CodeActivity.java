@@ -21,7 +21,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.widget.TextView;
 
 import in.zerob13.Controller.Controller;
 import in.zerob13.UI.BaseUi;
@@ -89,6 +88,6 @@ public class CodeActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return super.onKeyDown(keyCode, event);
+		return mController.onKeyDown(keyCode,event);
 	}
 }
