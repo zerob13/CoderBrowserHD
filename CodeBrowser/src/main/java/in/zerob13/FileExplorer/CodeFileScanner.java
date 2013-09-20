@@ -31,9 +31,8 @@ import java.util.List;
 public class CodeFileScanner extends Thread {
 
 	private static final int PROGRESS_STEPS = 50;
-	private static final String FILE_TYPE_FILTER = "";
-    // only support text code files
-	private static final String MIME_FILTER = "text/*";
+	// only support text code files
+	private static final String MIME_PR = "text/";
 
 	private File curDir;
 	private Handler handler;
@@ -73,17 +72,12 @@ public class CodeFileScanner extends Thread {
 					continue;
 				}
 				if (currentFile.isDirectory()) {
-					if (currentFile.canWrite()) {
-						dirLists.add(currentFile);
-					}
+					dirLists.add(currentFile);
 				} else {
 					String fileName = currentFile.getName();
 					String mimetype = FileUtils.getMimeType(fileName);
-					String filetype = FileUtils.getExtension(fileName);
-					boolean ext_allow = filetype.equalsIgnoreCase(FILE_TYPE_FILTER) || FILE_TYPE_FILTER == "";
-					boolean mime_allow = MIME_FILTER != null
-							&& (mimetype.contentEquals(MIME_FILTER) || FILE_TYPE_FILTER == null);
-					if (ext_allow || mime_allow) {
+					boolean mime_allow = MIME_PR != null && (mimetype.startsWith(MIME_PR));
+					if (mime_allow) {
 						filesLists.add(currentFile);
 					}
 				}
