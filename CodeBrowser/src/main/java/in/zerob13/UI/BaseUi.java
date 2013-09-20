@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import in.zerob13.CodeBrowserHD.R;
 
 /**
@@ -24,23 +23,20 @@ public class BaseUi implements UI {
 	protected static final FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER = new FrameLayout.LayoutParams(
 			ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER);
 
-    Activity mActivity;
-    UiController mUiController;
+	Activity mActivity;
+	UiController mUiController;
 
-    protected FrameLayout mFrameLayout;
-    protected View mContentView;
+	protected FrameLayout mFrameLayout;
+	protected View mContentView;
 
-    public BaseUi(Activity activity, UiController controller) {
-        mActivity = activity;
-        mUiController=controller;
-        mFrameLayout = (FrameLayout) mActivity.getWindow()
-                .getDecorView().findViewById(android.R.id.content);
-        mContentView = new TextView(mActivity);
-        ((TextView)mContentView).setText(R.string.hello_world);
-        mFrameLayout.addView(mContentView,COVER_SCREEN_GRAVITY_CENTER);
-    }
-
-
+	public BaseUi(Activity activity, UiController controller) {
+		mActivity = activity;
+		mUiController = controller;
+		mFrameLayout = (FrameLayout) mActivity.getWindow().getDecorView().findViewById(android.R.id.content);
+		mContentView = new TextView(mActivity);
+		((TextView) mContentView).setText(R.string.hello_world);
+		mFrameLayout.addView(mContentView, COVER_SCREEN_GRAVITY_CENTER);
+	}
 
 	@Override
 	public void onPause() {

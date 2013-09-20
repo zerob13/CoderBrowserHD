@@ -16,8 +16,8 @@
 
 package in.zerob13.CodeBrowserHD;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 
 import in.zerob13.UI.BaseUi;
@@ -25,14 +25,14 @@ import in.zerob13.UI.UI;
 
 public class CodeActivity extends Activity {
 
-    private Controller mController = null;
+	private Controller mController = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mController = createController();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mController = createController();
 
-    }
+	}
 
 	private Controller createController() {
 		Controller controller = new Controller(this);
@@ -42,11 +42,11 @@ public class CodeActivity extends Activity {
 		return controller;
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.file, menu);
-        return true;
-    }
-    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.file, menu);
+		return true;
+	}
+
 }
