@@ -18,6 +18,7 @@ package in.zerob13.UI;
 
 import android.content.res.Configuration;
 import android.view.KeyEvent;
+import android.view.View;
 
 /**
  * Created by zerob13 on 9/20/13.
@@ -37,5 +38,9 @@ public interface UI {
 	public boolean onMenuKey();
 
 	boolean dispatchKey(int code, KeyEvent event);
+
+	public void setContentLayout(View view);
+
+	public void setContentLayout(int res);
 
 }

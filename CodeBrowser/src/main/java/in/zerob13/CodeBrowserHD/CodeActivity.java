@@ -17,9 +17,12 @@
 package in.zerob13.CodeBrowserHD;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 
+import in.zerob13.Controller.Controller;
 import in.zerob13.UI.BaseUi;
 import in.zerob13.UI.UI;
 
@@ -39,6 +42,7 @@ public class CodeActivity extends Activity {
 		UI ui = null;
 		ui = new BaseUi(this, controller);
 		controller.setUi(ui);
+        controller.setCurrentLayout(R.layout.activity_file);
 		return controller;
 	}
 
@@ -49,4 +53,42 @@ public class CodeActivity extends Activity {
 		return true;
 	}
 
+    @Override
+    protected void onPause() {
+        mController.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mController.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mController.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mController.onConfgurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
+    }
 }

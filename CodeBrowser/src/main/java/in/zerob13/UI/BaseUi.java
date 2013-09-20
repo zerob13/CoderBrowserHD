@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import in.zerob13.CodeBrowserHD.R;
+
+import in.zerob13.Controller.UiController;
 
 /**
  * Created by zerob13 on 9/20/13.
@@ -27,15 +28,11 @@ public class BaseUi implements UI {
 	UiController mUiController;
 
 	protected FrameLayout mFrameLayout;
-	protected View mContentView;
 
 	public BaseUi(Activity activity, UiController controller) {
 		mActivity = activity;
 		mUiController = controller;
 		mFrameLayout = (FrameLayout) mActivity.getWindow().getDecorView().findViewById(android.R.id.content);
-		mContentView = new TextView(mActivity);
-		((TextView) mContentView).setText(R.string.hello_world);
-		mFrameLayout.addView(mContentView, COVER_SCREEN_GRAVITY_CENTER);
 	}
 
 	@Override
@@ -71,5 +68,17 @@ public class BaseUi implements UI {
 	@Override
 	public boolean dispatchKey(int code, KeyEvent event) {
 		return false;
+	}
+
+	@Override
+	public void setContentLayout(View view) {
+		mFrameLayout.removeAllViews();
+		mFrameLayout.addView(view, COVER_SCREEN_GRAVITY_CENTER);
+	}
+
+	@Override
+	public void setContentLayout(int res) {
+		mFrameLayout.removeAllViews();
+		LayoutInflater.from(mActivity).inflate(res, mFrameLayout);
 	}
 }
