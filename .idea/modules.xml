@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CodeBrowser/CodeBrowser.iml" filepath="$PROJECT_DIR$/CodeBrowser/CodeBrowser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CoderBrowserHD.iml" filepath="$PROJECT_DIR$/CoderBrowserHD.iml" />
+    </modules>
+  </component>
+</project>
+
