@@ -16,14 +16,14 @@
 
 package in.zerob13.FileExplorer;
 
+import android.os.Handler;
+import android.os.Message;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import android.os.Handler;
-import android.os.Message;
 
 /**
  * Created by zerob13 on 9/20/13.
@@ -31,36 +31,38 @@ import android.os.Message;
 public class CodeFileScanner extends Thread {
 
 	private static final int PROGRESS_STEPS = 50;
+	private static final String FILE_TYPE_FILTER = "";
+    // only support text code files
+	private static final String MIME_FILTER = "text/*";
 
-	private File mCurrentDirectory;
-	private Handler mHandler;
+	private File curDir;
+	private Handler handler;
 
-	private String mFilterFiletype = "";
-	private String mFilterMimetype = "text/*";
 	private boolean cancel;
 
 	public CodeFileScanner(String dir, Handler msgHandler) {
-		mCurrentDirectory = new File(dir);
-		mHandler = msgHandler;
+		curDir = new File(dir);
+		handler = msgHandler;
 	}
 
 	@Override
 	public void run() {
-		File[] files = mCurrentDirectory.listFiles();
+		File[] files = curDir.listFiles();
 		int totalCount = 0;
+
 		if (cancel) {
 			clearData();
 			return;
 		}
+
 		if (files == null) {
 			totalCount = 0;
 		} else {
 			totalCount = files.length;
 		}
 		int progress = 0;
-		/** Dir separate for sorting */
+
 		List<File> dirLists = new ArrayList<File>(totalCount);
-		/** Files separate for sorting */
 		List<File> filesLists = new ArrayList<File>(totalCount);
 		// start scan files
 		if (files != null) {
@@ -78,10 +80,9 @@ public class CodeFileScanner extends Thread {
 					String fileName = currentFile.getName();
 					String mimetype = FileUtils.getMimeType(fileName);
 					String filetype = FileUtils.getExtension(fileName);
-					boolean ext_allow = filetype.equalsIgnoreCase(mFilterFiletype) || mFilterFiletype == "";
-					boolean mime_allow = mFilterMimetype != null
-							&& (mimetype.contentEquals(mFilterMimetype)
-									|| mFilterMimetype.contentEquals("*/*") || mFilterFiletype == null);
+					boolean ext_allow = filetype.equalsIgnoreCase(FILE_TYPE_FILTER) || FILE_TYPE_FILTER == "";
+					boolean mime_allow = MIME_FILTER != null
+							&& (mimetype.contentEquals(MIME_FILTER) || FILE_TYPE_FILTER == null);
 					if (ext_allow || mime_allow) {
 						filesLists.add(currentFile);
 					}
@@ -105,13 +106,13 @@ public class CodeFileScanner extends Thread {
 			}
 		});
 
-        //finish scan
+		//finish scan
 		if (!cancel) {
 			CodeScanResult contents = new CodeScanResult();
 			contents.dirLists = dirLists;
 			contents.fileLists = filesLists;
-			contents.mCurDir = mCurrentDirectory.getAbsolutePath();
-			Message msg = mHandler.obtainMessage(CodeScanResult.MESSAGE_SCANNER_FINISHED);
+			contents.mCurDir = curDir.getAbsolutePath();
+			Message msg = handler.obtainMessage(CodeScanResult.MESSAGE_SCANNER_FINISHED);
 			msg.obj = contents;
 			msg.sendToTarget();
 		}
@@ -122,7 +123,7 @@ public class CodeFileScanner extends Thread {
 
 	private void clearData() {
 		// Remove all references
-		mHandler = null;
+		handler = null;
 	}
 
 }
