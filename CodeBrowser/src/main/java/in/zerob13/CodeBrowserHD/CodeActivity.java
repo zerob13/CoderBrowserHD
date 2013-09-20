@@ -34,6 +34,7 @@ public class CodeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mController = createController();
+        mController.start(getIntent());
 
 	}
 
