@@ -2,8 +2,14 @@
 <project version="4">
   <component name="EclipseCodeFormatter">
     <option name="defaultSettings" value="true" />
+    <option name="formatter" value="ECLIPSE" />
     <option name="id" value="1378268761197" />
     <option name="name" value="default" />
+    <option name="pathToConfigFileJava" value="$USER_HOME$/Desktop/WorkSpace/GreenTea/CodeStyle_formatter_lenovo.xml" />
+    <option name="selectedJavaProfile" value="lenovo_android_code_standard" />
+  </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -43,68 +49,6 @@
     <option name="FORCE_UPDATE" value="false" />
     <option name="IGNORE_EXTERNALS" value="false" />
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="Copyright.UI">
-        <settings>
-          <last-edited>lenovo</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.7</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.7</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>
 
